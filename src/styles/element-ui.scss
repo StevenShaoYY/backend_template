@@ -38,34 +38,9 @@
     }
 }
 
-.el-button + .el-button {
-    margin-left:0px;
-}
 // dropdown
 .el-dropdown-menu {
     a {
         display: block
     }
-}
-
-// 表格错位
-body .el-table th.gutter {
-    display: table-cell!important;
-}
-
-body .el-table colgroup.gutter {
-    display: table-cell!important;
-}
-
-.el-table .warning-row {
-    background: oldlace;
-}
-
-.el-table .success-row {
-    background: #f0f9eb;
-}
-
-.el-table th,
-.el-table tr {
-    background-color: rgba(0, 0, 0, 0) !important;
 }

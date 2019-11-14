@@ -1,45 +1,11 @@
 import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken, deepClone } from '@/utils/auth'
-import { resetRouter, constantRoutes } from '@/router'
-import { asyncRoutes } from '@/router/asyncRoutes'
-
-function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
-    return roles.some(role => route.meta.roles.includes(role))
-  } else {
-    return true
-  }
-}
-
-/**
- * Filter asynchronous routing tables by recursion
- * @param routes asyncRoutes
- * @param roles
- */
-export function filterAsyncRoutes(routes, roles) {
-  const res = []
-
-  routes.forEach(route => {
-    const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
-      if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
-      }
-      res.push(tmp)
-    }
-  })
-
-  return res
-}
+import { getToken, setToken, removeToken } from '@/utils/auth'
 
 const state = {
   token: getToken(),
   name: '',
   avatar: '',
-  userId: '',
-  routers: constantRoutes,
-  addRouters: []
-
+  userId: ''
 }
 
 const mutations = {
@@ -54,12 +20,7 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
-  },
-  SET_ROUTERS: (state, routes) => {
-    state.addRouters = deepClone(routes)
-    state.routers = deepClone(constantRoutes.concat(routes))
   }
-
 }
 
 const actions = {
@@ -86,13 +47,9 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-        const { name, avatar, roles } = data
+        const { name, avatar } = data
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
-        dispatch('GenerateRoutes', roles).then(res => {
-          resolve(data)
-        })
-        // resolve(state.addRoutes)
       }).catch(error => {
         reject(error)
       })
@@ -106,7 +63,6 @@ const actions = {
         commit('SET_TOKEN', '')
         commit('SET_USERID', '')
         removeToken()
-        resetRouter()
         resolve()
       }).catch(error => {
         reject(error)
@@ -121,20 +77,7 @@ const actions = {
       removeToken()
       resolve()
     })
-  },
-  GenerateRoutes({ commit }, roles) {
-    return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
-      commit('SET_ROUTERS', accessedRoutes)
-      resolve(accessedRoutes)
-    })
   }
-
 }
 
 export default {

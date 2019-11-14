@@ -1,18 +1,31 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
+    首页
+    <div class="echart-container">
+      <piechart />
+    </div>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
+import piechart from '../../components/echart/piechart'
 export default {
   name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
+  components: {
+    piechart
+  },
+  data() {
+    return {
+    }
+  },
+  created() {
+
+  },
+  mounted() {
+
+  },
+  methods: {
+
   }
 }
 </script>
@@ -20,11 +33,14 @@ export default {
 <style lang="scss" scoped>
 .dashboard {
   &-container {
-    margin: 30px;
+    font-size: 16px;
+    background: #fff;
+    height: 100%;
   }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
+}
+.echart-container{
+  width: 400px;
+  height: 300px;
+  background-color: #999;
 }
 </style>

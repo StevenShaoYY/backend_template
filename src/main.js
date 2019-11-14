@@ -6,6 +6,8 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 
+import './utils/rem.js'
+
 import '@/styles/index.scss' // global css
 
 import App from './App'
@@ -14,7 +16,7 @@ import router from './router'
 import VueAMap from 'vue-amap'
 
 import '@/icons' // icon
-import '@/permission' // permission control
+// import '@/permission' // permission control
 
 /**
  * If you don't want to use mock-server
