@@ -2,7 +2,11 @@ import request from '@/utils/request'
 
 export class ApiService {
   constructor(url, type) {
-    this.baseUrl = `${type}/${url}`
+    if(type) {
+      this.baseUrl = `${type}/${url}`
+    } else {
+      this.baseUrl = `${url}`
+    }
     this.routerUrl = url
     this.urlType = type
   }
