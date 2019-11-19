@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters } = createNamespacedHelpers(process.env.VUE_APP_NAME)
 export default {
   name: 'Dashboard',
   computed: {

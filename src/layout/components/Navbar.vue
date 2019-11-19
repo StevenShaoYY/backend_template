@@ -26,7 +26,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters } = createNamespacedHelpers(process.env.VUE_APP_NAME)
 import Breadcrumb from '@/components/Breadcrumb'
 import Hamburger from '@/components/Hamburger'
 
@@ -43,7 +44,7 @@ export default {
   },
   methods: {
     toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
+      this.$store.dispatch(`${process.env.VUE_APP_NAME}/app/toggleSideBar`)
     },
     async logout() {
       await this.$store.dispatch('user/logout')

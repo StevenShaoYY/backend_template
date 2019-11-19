@@ -7,8 +7,8 @@
         :collapse="isCollapse"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"
-        :unique-opened="false"
         :active-text-color="variables.menuActiveText"
+        :unique-opened="false"
         :collapse-transition="false"
         mode="vertical"
       >
@@ -19,10 +19,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters } = createNamespacedHelpers(process.env.VUE_APP_NAME)
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
-import variables from '@/styles/variables.scss'
+import variables from '@/styles/index.scss'
 
 export default {
   components: { SidebarItem, Logo },
@@ -44,7 +45,7 @@ export default {
       return path
     },
     showLogo() {
-      return this.$store.state.settings.sidebarLogo
+      return this.$store.state[process.env.VUE_APP_NAME].settings.sidebarLogo
     },
     variables() {
       return variables

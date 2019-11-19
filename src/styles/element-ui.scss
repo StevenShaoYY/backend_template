@@ -1,6 +1,7 @@
 // cover some element-ui styles
-.el-breadcrumb__inner,
-.el-breadcrumb__inner a {
+
+#EYOUMANAGE .el-breadcrumb__inner,
+#EYOUMANAGE .el-breadcrumb__inner a {
     font-weight: 400 !important;
 }
 
@@ -41,6 +42,8 @@
 .el-button + .el-button {
     margin-left:0px;
 }
+.el-button {
+}
 // dropdown
 .el-dropdown-menu {
     a {
@@ -49,11 +52,11 @@
 }
 
 // 表格错位
-body .el-table th.gutter {
+.el-table th.gutter {
     display: table-cell!important;
 }
 
-body .el-table colgroup.gutter {
+.el-table colgroup.gutter {
     display: table-cell!important;
 }
 

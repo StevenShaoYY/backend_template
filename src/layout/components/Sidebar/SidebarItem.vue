@@ -57,6 +57,9 @@ export default {
     return {}
   },
   methods: {
+    clickMenu() {
+      localStorage.setItem('PAGE_STORAGE', 1)
+    },
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
