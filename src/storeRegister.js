@@ -1,15 +1,6 @@
 import Vue from 'vue'
 import { DEVE_MODE } from './settings'
-// const Vuex = {}
 import Vuex from 'vuex'
-// if (process.env.NODE_ENV !== DEVE_MODE) {
-//   const Vuex = require('vuex').default
-//   Vue.use(Vuex)
-//   const store = new Vuex.Store({
-//     modules: {
-//     }
-//   })
-// }
 
 import getters from './store/getters'
 import app from './store/modules/app'
@@ -27,7 +18,6 @@ const testStore = {
 }
 let store = null
 if (process.env.NODE_ENV !== DEVE_MODE) {
-  // const Vuex = require('vuex').default
   Vue.use(Vuex)
   store = new Vuex.Store({
     modules: {
