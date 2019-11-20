@@ -49,8 +49,7 @@ export default {
   },
   methods: {
     handleClickOutside() {
-      // this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
-      this.$store.commit(`${process.env.VUE_APP_NAME}/user/SET_ROUTERS`, this.$store.state['mainStore'].user.addRouters[2].children)
+      this.$store.dispatch(`${process.env.VUE_APP_NAME}/app/closeSideBar`, { withoutAnimation: false })
     }
   }
 }
