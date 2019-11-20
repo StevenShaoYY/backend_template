@@ -1,14 +1,13 @@
 const webpack = require('webpack')
 const APP_NAME = require('./package.json').name
-// const PORT = require('./package.json').devPort
-const NODE_ENV = process.env.NODE_ENV || 'development'
 const path = require('path')
-const port = 9091 // dev port
 function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
 log('APP_NAME: ', APP_NAME)
+
+const port = 9091 // dev port
 
 module.exports = {
   publicPath: `/${APP_NAME}/`,

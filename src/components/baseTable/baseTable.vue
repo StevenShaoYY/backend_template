@@ -337,9 +337,9 @@ export default {
   } */
   .expand-btn-comtainer{
     display: inline-block;
-    // margin-left: 10px;
+    margin-left: 6px;
     .el-button {
-      margin-right: 4px;
+      margin-right: 6px;
     }
     .el-button + .el-button{
       margin-left: 0px;

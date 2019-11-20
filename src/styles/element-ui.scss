@@ -1,7 +1,7 @@
 // cover some element-ui styles
 
-#EYOUMANAGE .el-breadcrumb__inner,
-#EYOUMANAGE .el-breadcrumb__inner a {
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
     font-weight: 400 !important;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .el-button + .el-button {
-    margin-left:0px;
+    margin-left:6px;
 }
 
 // dropdown

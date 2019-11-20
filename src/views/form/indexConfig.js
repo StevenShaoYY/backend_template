@@ -89,6 +89,7 @@ export const CONFIG = {
     delete: true,
     view: false,
     expands: [
+      { name: '测试', emitName: 'test', type: 'primary' },
       { name: '测试', emitName: 'test', type: 'primary' }
     ]
   }
