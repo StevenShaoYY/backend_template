@@ -17,7 +17,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 @import "~@/styles/variables.scss";
 .app-main {
   /*50 = navbar  */
@@ -27,8 +27,8 @@ export default {
   overflow: hidden;
 }
 .fixed-header+.app-main {
-  margin-top:calc(#{$topbar_height} + #{$micro_top});
-  height: calc(100vh - #{$micro_bottom} - #{$micro_top} - #{$topbar_height});
+  padding-top: $topbar_height;
+  height: calc(100vh - #{$micro_bottom} - #{$micro_top});
   overflow: auto;
 }
 </style>
