@@ -5,7 +5,7 @@
 @import './sidebar.scss';
 
 body {
-  height: 100%;
+  // height: 100%;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -18,13 +18,9 @@ label {
 }
 
 html {
-  height: 100%;
+  // height: 100%;
   box-sizing: border-box;
 }
-
-// #EYOUMANAGE{
-//   height: 100%;
-// }
 
 *,
 *:before,

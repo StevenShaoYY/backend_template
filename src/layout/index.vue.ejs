@@ -80,15 +80,15 @@ export default {
 
   .fixed-header {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: #{$micro_top};
+    right: #{$micro_right};
     z-index: 9;
-    width: calc(100% - #{$sideBarWidth});
+    width: calc(100% - #{$sideBarWidth} - #{$micro_left} - #{$micro_right});
     transition: width 0.28s;
   }
 
   .hideSidebar .fixed-header {
-    width: calc(100% - 54px)
+    width: calc(100% - 54px - #{$micro_left} - #{$micro_right})
   }
 
   .mobile .fixed-header {

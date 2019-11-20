@@ -55,8 +55,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/variables.scss";
 .navbar {
-  height: 50px;
+  height: #{$topbar_height};
   overflow: hidden;
   position: relative;
   background: #fff;
@@ -82,7 +83,7 @@ export default {
   .right-menu {
     float: right;
     height: 100%;
-    line-height: 50px;
+    line-height: #{$topbar_height};
 
     &:focus {
       outline: none;
