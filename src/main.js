@@ -1,23 +1,18 @@
 import Vue from 'vue'
 
-// import 'normalize.css/normalize.css' // A modern alternative to CSS resets
+import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
-import ElementUI from 'element-ui'
+// import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
+// import locale from 'element-ui/lib/locale/lang/zh-CN' // lang i18n
 
 import '@/styles/index.scss' // global css
 import App from './App'
-// import store from './store'
+import store from './store'
 import router from './router'
-import VueAMap from 'vue-amap'
-import { DEVE_MODE } from './settings'
 import '@/icons' // icon
 import '@/permission' // permission control
-let store = {}
-if (process.env.NODE_ENV !== DEVE_MODE) {
-  store = require('./storeRegister').default
-}
+
 /**
  * If you don't want to use mock-server
  * you want to use mockjs for request interception
@@ -28,27 +23,17 @@ if (process.env.NODE_ENV !== DEVE_MODE) {
  */
 
 // set ElementUI lang to EN
-Vue.use(ElementUI, { locale })
-// 高德地图
-Vue.use(VueAMap)
-VueAMap.initAMapApiLoader({
-  key: '76dfc9646535c62a3e0ba7318b77a1fb',
-  plugin: ['AMap.Autocomplete', 'AMap.PlaceSearch', 'AMap.Scale', 'AMap.OverView', 'AMap.ToolBar', 'AMap.MapType', 'AMap.PolyEditor', 'AMap.CircleEditor', 'Geocoder', 'MouseTool', 'RangingTool'],
-  // 默认高德 sdk 版本为 1.4.4
-  v: '1.4.4'
-})
+// Vue.use(ElementUI, { locale })
 
 Vue.config.productionTip = false
-if (process.env.NODE_ENV === DEVE_MODE) {
-  const sharePool = (Vue.__share_pool__ = Vue.__share_pool__ || {})
-  const routesPool = (sharePool.routes = sharePool.routes || {})
-  // 挂载子项目的 route-list
-  routesPool[process.env.VUE_APP_NAME] = router
-} else {
-  new Vue({
-    el: '#app',
-    router,
-    store,
-    render: h => h(App)
-  })
-}
+
+console.log('store挂载前：', Vue.__share_pool__)
+Vue.config.productionTip = false;
+(Vue.__share_pool__ = Vue.__share_pool__ || {}).store = store
+new Vue({
+  el: '#app',
+  router,
+  store,
+  render: h => h(App)
+})
+

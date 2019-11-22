@@ -1,11 +1,9 @@
+#app {
 
   .main-container {
     min-height: 100%;
     transition: margin-left .28s;
-    margin-left: calc(#{$sideBarWidth} + #{$micro_left});
-    margin-right: $micro_right;
-    margin-top: $micro_top;
-    // margin-bottom: $micro_bottom;
+    margin-left: $sideBarWidth;
     position: relative;
   }
 
@@ -13,12 +11,12 @@
     transition: width 0.28s;
     width: $sideBarWidth !important;
     background-color: $menuBg;
-    height: calc(100% - #{$micro_bottom} - #{$micro_top});
+    height: 100%;
     position: fixed;
     font-size: 0px;
-    top: $micro_top;
-    bottom: $micro_bottom;
-    left: $micro_left;
+    top: 50px;
+    bottom: 0;
+    left: 80px;
     z-index: 1001;
     overflow: hidden;
 
@@ -69,6 +67,7 @@
     .submenu-title-noDropdown,
     .el-submenu__title {
       &:hover {
+        border-radius: 8px;
         background-color: $menuHover !important;
       }
     }
@@ -83,6 +82,7 @@
       background-color: $subMenuBg !important;
 
       &:hover {
+        border-radius: 8px;
         background-color: $subMenuHover !important;
       }
     }
@@ -94,7 +94,7 @@
     }
 
     .main-container {
-      margin-left: calc(54px + #{$micro_left});
+      margin-left: 54px;
     }
 
     .svg-icon {
@@ -152,22 +152,19 @@
   // mobile responsive
   .mobile {
     .main-container {
-      margin-left: $micro_left;
+      margin-left: 0px;
     }
 
     .sidebar-container {
       transition: transform .28s;
       width: $sideBarWidth !important;
     }
-    .fixed-header{
-      left: $micro_left;
-      right: $micro_right;
-    }
+
     &.hideSidebar {
       .sidebar-container {
         pointer-events: none;
         transition-duration: 0.3s;
-        transform: translate3d(-$sideBarWidth , 0, 0px);
+        transform: translate3d(-$sideBarWidth, 0, 0);
       }
     }
   }
@@ -179,6 +176,7 @@
       transition: none;
     }
   }
+}
 
 // when menu collapsed
 .el-menu--vertical {

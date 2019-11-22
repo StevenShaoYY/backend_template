@@ -1,12 +1,11 @@
 <template>
-  <div id="EYOUMANAGE">
+  <div id="app">
     <router-view />
   </div>
 </template>
 
 <script>
-// import './storeRegister'
 export default {
-  name: 'EYOUMANAGE'
+  name: 'App'
 }
 </script>

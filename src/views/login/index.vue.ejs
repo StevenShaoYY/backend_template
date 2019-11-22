@@ -102,7 +102,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch(`${process.env.VUE_APP_NAME}/user/login`, this.loginForm).then(() => {
+          this.$store.dispatch('mainStore/user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
             this.loading = false
           }).catch(() => {
