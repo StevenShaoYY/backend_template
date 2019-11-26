@@ -136,8 +136,7 @@ export default {
     .app-main-c {
       width: calc(100vw - 80px);
       height: calc(100vh - 50px);
-      margin-left: 77px;
-      margin-top: 50px;
+      // margin-left: 77px;
     }
   }
 
