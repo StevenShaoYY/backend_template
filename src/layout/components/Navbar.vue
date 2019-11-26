@@ -3,7 +3,6 @@
     <!-- <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" /> -->
 
     <!-- <breadcrumb class="breadcrumb-container" /> -->
-    <span style="line-height:50px;margin-left:30px;color:#93969c;">{{ `今天是${DATE.getFullYear()}年${DATE.getMonth()+1}月${DATE.getDate()}日    星期${"日一二三四五六".charAt(DATE.getDay())}   E游小镇欢迎你！` }}</span>
     <div class="right-menu">
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">

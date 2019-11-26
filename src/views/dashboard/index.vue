@@ -6,7 +6,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers(process.env.VUE_APP_NAME)
+const { mapGetters } = createNamespacedHelpers('mainStore')
 export default {
   name: 'Dashboard',
   computed: {
