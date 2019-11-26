@@ -1,8 +1,6 @@
 import { login, logout, getInfo } from '@/api/user'
 import { getToken, setToken, removeToken, deepClone } from '@/utils/auth'
-import { resetRouter, constantRoutes } from '@/router'
-import { asyncRoutes } from '@/router/asyncRoutes'
-
+import { resetRouter, constantRoutes, asyncRouterMap } from '@/router'
 function hasPermission(roles, route) {
   if (route.meta && route.meta.roles) {
     return roles.some(role => route.meta.roles.includes(role))
@@ -11,24 +9,17 @@ function hasPermission(roles, route) {
   }
 }
 
-/**
- * Filter asynchronous routing tables by recursion
- * @param routes asyncRoutes
- * @param roles
- */
-export function filterAsyncRoutes(routes, roles) {
+export function filterAsyncRouter(routes, roles) {
   const res = []
-
   routes.forEach(route => {
     const tmp = { ...route }
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+        tmp.children = filterAsyncRouter(tmp.children, roles)
       }
       res.push(tmp)
     }
   })
-
   return res
 }
 
@@ -55,9 +46,9 @@ const mutations = {
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   },
-  SET_ROUTERS: (state, routes) => {
-    state.addRouters = deepClone(routes)
-    state.routers = deepClone(constantRoutes.concat(routes))
+  SET_ROUTERS: (state, routers) => {
+    state.addRouters = deepClone(routers)
+    state.routers = deepClone(constantRoutes.concat(routers))
   }
 
 }
@@ -67,6 +58,7 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
+      console.log(password)
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
         commit('SET_TOKEN', data.token)
@@ -92,7 +84,6 @@ const actions = {
         dispatch('GenerateRoutes', roles).then(res => {
           resolve(data)
         })
-        // resolve(state.addRoutes)
       }).catch(error => {
         reject(error)
       })
@@ -122,17 +113,18 @@ const actions = {
       resolve()
     })
   },
-  GenerateRoutes({ commit }, roles) {
+  GenerateRoutes({ commit }, data) {
     return new Promise(resolve => {
-      let accessedRoutes
-      if (roles.includes('admin')) {
-        accessedRoutes = asyncRoutes || []
-      } else {
-        accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
-      }
-      commit('SET_ROUTERS', accessedRoutes)
-      resolve(accessedRoutes)
+      const accessRouters = filterAsyncRouter(asyncRouterMap, data)
+      accessRouters.push({ path: '*', redirect: '/404', hidden: true })
+      commit('SET_ROUTERS', accessRouters)
+      resolve()
     })
+  },
+
+  // set Avatar
+  setAvatar({ commit }, image) {
+    commit('SET_AVATAR', image)
   }
 
 }
@@ -143,3 +135,4 @@ export default {
   mutations,
   actions
 }
+

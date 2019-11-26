@@ -1,98 +1,144 @@
 <template>
-  <div id="EYOUMANAGE" :class="classObj" class="app-wrapper">
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <sidebar class="sidebar-container" />
-    <div class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
+  <div class="app-main-wrapper">
+    <div class="menu_bar">
+      <div class="sidebar-logo-container">
+        <router-link class="sidebar-logo-link" to="/">
+          <img src="../assets/icon/topicon.png" alt="">
+        </router-link>
       </div>
-      <app-main />
+      <router-link
+        v-for="(item, index) of route"
+        :key="index"
+        :class="[path.indexOf(goto(item))==0?'active':'','menu_style']"
+        :to="goto(item)"
+      >
+        <el-tooltip class="item" effect="dark" :content="getTitle(item)" placement="right">
+          <div class="icon-class">
+            <svg-icon :icon-class="getIcon(item)" />
+          </div>
+        </el-tooltip>
+      </router-link>
     </div>
+    <section class="app-main-c">
+      <navbar-main class="main-header" />
+      <transition name="fade-transform" mode="out-in">
+        <router-view :key="key" />
+      </transition>
+    </section>
   </div>
 </template>
 
 <script>
-import { Navbar, Sidebar, AppMain } from './components'
-import ResizeMixin from './mixin/ResizeHandler'
-import { DEVE_MODE } from '../settings'
-if (process.env.NODE_ENV === DEVE_MODE) {
-  require('../storeRegister')
-}
-
+import { NavbarMain } from './components'
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters } = createNamespacedHelpers('mainStore')
 export default {
   name: 'Layout',
   components: {
-    Navbar,
-    Sidebar,
-    AppMain
+    NavbarMain
   },
-  mixins: [ResizeMixin],
-  computed: {
-    sidebar() {
-      console.log(this.$store)
-      return this.$store.state[process.env.VUE_APP_NAME].app.sidebar
-    },
-    device() {
-      return this.$store.state[process.env.VUE_APP_NAME].app.device
-    },
-    fixedHeader() {
-      return this.$store.state[process.env.VUE_APP_NAME].settings.fixedHeader
-    },
-    classObj() {
-      return {
-        hideSidebar: !this.sidebar.opened,
-        openSidebar: this.sidebar.opened,
-        withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
-      }
+  data() {
+    return {
+      path: ''
     }
+  },
+  computed: {
+    ...mapGetters([
+      'permission_routers'
+    ]),
+    key() {
+      return this.$route.fullPath
+    },
+    route() {
+      return this.permission_routers.filter((item, index) => {
+        if (item.children) {
+          return item
+        }
+      })
+    }
+  },
+  created() {
+    this.path = this.$route.path
   },
   methods: {
     handleClickOutside() {
-      this.$store.dispatch(`${process.env.VUE_APP_NAME}/app/closeSideBar`, { withoutAnimation: false })
+      this.$store.dispatch('mainStore/app/closeSideBar', { withoutAnimation: false })
+    },
+    goto(item) {
+      let path = ''
+      if (item.meta) {
+        path = item.path
+      } else if (item.path === '/') {
+        path = item.path + item.children[0].path
+      } else {
+        path = item.path + '/' + item.children[0].path
+      }
+      return path
+    },
+    getIcon(item) {
+      return item.meta ? item.meta.icon : item.children[0].meta.icon
+    },
+    getTitle(item) {
+      return item.meta ? item.meta.title : item.children[0].meta.title
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import "~@/styles/mixin.scss";
-  @import "~@/styles/variables.scss";
+  .main-header {
+    position: fixed;
+    width: calc(100% - 80px);
+    top: 0;
+    left: 80px;
+    height: 50px;
+  }
 
-  .app-wrapper {
-    @include clearfix;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    &.mobile.openSidebar{
+  .app-main-wrapper {
+    display: flex;
+    .menu_bar {
       position: fixed;
       top: 0;
+      left: 0;
+      width: 80px;
+      height: 100vh;
+      background-color: rgb(45, 149, 236);
+      z-index: 99999;
+    }
+    .sidebar-logo-container {
+      background: #1e78c1;
+    }
+    .sidebar-logo-link {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 15px 10px 10px 10px;
+    }
+    .sidebar-logo-link img {
+      display: block;
+      width: 100%;
+    }
+    .active {
+      color: #000000 !important;
+    }
+    .menu_style {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 15px 0;
+      font-size: 22px;
+      color: #ffffff;
+    }
+    .menu_style:hover {
+      color: #000000;
+      background-color: rgb(241, 252, 251);
+    }
+    .app-main-c {
+      width: calc(100vw - 80px);
+      height: calc(100vh - 50px);
+      margin-left: 77px;
+      margin-top: 50px;
     }
   }
-  .drawer-bg {
-    background: #000;
-    opacity: 0.3;
-    width: 100%;
-    top: 0;
-    height: 100%;
-    position: absolute;
-    z-index: 999;
-  }
 
-  .fixed-header {
-    position: fixed;
-    top: #{$micro_top};
-    right: #{$micro_right};
-    z-index: 9;
-    width: calc(100% - #{$sideBarWidth} - #{$micro_left} - #{$micro_right});
-    transition: width 0.28s;
-  }
-
-  .hideSidebar .fixed-header {
-    width: calc(100% - 54px - #{$micro_left} - #{$micro_right})
-  }
-
-  .mobile .fixed-header {
-    width: 100%;
-  }
 </style>

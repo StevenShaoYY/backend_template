@@ -1,7 +1,7 @@
 export default {
   computed: {
     device() {
-      return this.$store.state[process.env.VUE_APP_NAME].app.device
+      return this.$store.state.mainStore.app.device
     }
   },
   mounted() {

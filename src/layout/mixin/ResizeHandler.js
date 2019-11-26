@@ -1,13 +1,13 @@
-// import store from '@/store'
+import store from '@/store'
 
 const { body } = document
-const WIDTH = 992 // refer to Bootstrap's responsive design
+const WIDTH = 0 // refer to Bootstrap's responsive design
 
 export default {
   watch: {
     $route(route) {
       if (this.device === 'mobile' && this.sidebar.opened) {
-        this.$store.dispatch(`${process.env.VUE_APP_NAME}/app/closeSideBar`, { withoutAnimation: false })
+        store.dispatch('mainStore/app/closeSideBar', { withoutAnimation: false })
       }
     }
   },
@@ -20,8 +20,8 @@ export default {
   mounted() {
     const isMobile = this.$_isMobile()
     if (isMobile) {
-      this.$store.dispatch(`${process.env.VUE_APP_NAME}/app/toggleDevice`, 'mobile')
-      this.$store.dispatch(`${process.env.VUE_APP_NAME}/app/closeSideBar`, { withoutAnimation: true })
+      store.dispatch('mainStore/app/toggleDevice', 'mobile')
+      store.dispatch('mainStore/app/closeSideBar', { withoutAnimation: true })
     }
   },
   methods: {
@@ -33,12 +33,12 @@ export default {
     },
     $_resizeHandler() {
       if (!document.hidden) {
-        const isMobile = this.$_isMobile()
-        this.$store.dispatch(`${process.env.VUE_APP_NAME}/app/toggleDevice`, isMobile ? 'mobile' : 'desktop')
+        // const isMobile = this.$_isMobile()
+        // store.dispatch('app/toggleDevice', 'desktop')
 
-        if (isMobile) {
-          this.$store.dispatch(`${process.env.VUE_APP_NAME}/app/closeSideBar`, { withoutAnimation: true })
-        }
+        // if (isMobile) {
+        //   store.dispatch('app/closeSideBar', { withoutAnimation: true })
+        // }
       }
     }
   }

@@ -1,14 +1,33 @@
-
 import Vue from 'vue'
-import { DEVE_MODE } from '../settings'
-let Router = {}
-if (process.env.NODE_ENV !== DEVE_MODE) {
-  Router = require('vue-router').default
-  Vue.use(Router)
-}
+import Router from 'vue-router'
+
+Vue.use(Router)
+
 /* Layout */
-const Layout = () => import('@/layout')
-const asyncRoutes = require('./asyncRoutes')
+import Layout from '@/layout'
+
+const routes = Vue.__share_pool__.routes
+function handelRoutes(route) {
+  Reflect.ownKeys(route).forEach(key => {
+    route[key].constantRoutes.forEach(i => {
+      if (i.path) {
+        i.path = `/${key}${i.path}`
+      }
+      if (i.redirect) {
+        i.redirect = `/${key}${i.redirect}`
+      }
+    })
+    route[key].asyncRouterMap.forEach(i => {
+      if (i.path) {
+        i.path = `/${key}${i.path}`
+      }
+      if (i.redirect) {
+        i.redirect = `/${key}${i.redirect}`
+      }
+    })
+  })
+}
+handelRoutes(routes)
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -35,18 +54,14 @@ const asyncRoutes = require('./asyncRoutes')
  */
 export const constantRoutes = [{
   path: '/login',
-  component: () =>
-            import('@/views/login/index'),
+  component: () => import('@/views/login/index'),
   hidden: true
 },
-
 {
   path: '/404',
-  component: () =>
-            import('@/views/404'),
+  component: () => import('@/views/404'),
   hidden: true
 },
-
 {
   path: '/',
   component: Layout,
@@ -54,55 +69,43 @@ export const constantRoutes = [{
   children: [{
     path: 'dashboard',
     name: 'Dashboard',
-    component: () =>
-                import('@/views/dashboard/index'),
-    meta: { title: '基础应用', icon: 'dashboard' }
+    component: () => import('@/views/dashboard/index'),
+    meta: { title: '首页', icon: 'dashboard' }
   }]
-},
-
-{
-  path: '/example',
-  component: Layout,
-  redirect: '/example/table',
-  name: 'Example',
-  meta: { title: '资源管理', icon: 'example' },
-  children: [{
-    path: 'table',
-    name: 'Table',
-    component: () =>
-                    import('@/views/table/index'),
-    meta: { title: 'Table', icon: 'table' }
-  },
-  {
-    path: 'tree',
-    name: 'Tree',
-    component: () =>
-                    import('@/views/tree/index'),
-    meta: { title: 'Tree', icon: 'tree' }
-  }
-  ]
 }
-  // 404 page must be placed at the end !!!
-  // { path: '*', redirect: '/404', hidden: true }
+// 404 page must be placed at the end !!!
+// { path: '*', redirect: '/404', hidden: true }
 ]
-let router = {}
-if (process.env.NODE_ENV === DEVE_MODE) {
-  router = {
-    constantRoutes,
-    asyncRouterMap: asyncRoutes.asyncRoutes
+// constantRoutes.push({
+//   path: '/e_you_manage',
+//   component: Layout,
+//   redirect: '/e_you_manage',
+//   children: routes['e_you_manage'].constantRoutes,
+//   meta: { title: '系统设置', icon: 'xitong', menu_code: 'eyou_system' }
+// })
+Vue.__share_pool__.routes.finalRoute = constantRoutes
+export const asyncRouterMap = [
+  {
+    path: '/test',
+    component: Layout,
+    name: 'test',
+    redirect: '/test/dashboard',
+    children: [...routes['test'].constantRoutes, ...routes['test'].asyncRouterMap],
+    meta: { title: 'test中心', icon: 'wuye', roles: ['admin', 'editor'] }
   }
-} else {
-  const createRouter = () => new Router({
-    // mode: 'history', // require service support
-    scrollBehavior: () => ({ y: 0 }),
-    routes: constantRoutes
-  })
-  router = createRouter()
-  router.resetRouter = function() {
-    const newRouter = createRouter()
-    router.matcher = newRouter.matcher // reset router
-  }
+]
+const createRouter = () => new Router({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
+})
+
+const router = createRouter()
+
+// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
 }
 
 export default router
-

@@ -1,14 +1,14 @@
 <template>
   <div :class="{'has-logo':showLogo}">
-    <logo v-if="showLogo" :collapse="isCollapse" />
+    <logo :collapse="isCollapse" />
     <el-scrollbar wrap-class="scrollbar-wrapper">
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
         :background-color="variables.menuBg"
         :text-color="variables.menuText"
-        :active-text-color="variables.menuActiveText"
         :unique-opened="false"
+        :active-text-color="variables.menuActiveText"
         :collapse-transition="false"
         mode="vertical"
       >
@@ -20,17 +20,17 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex'
-const { mapGetters } = createNamespacedHelpers(process.env.VUE_APP_NAME)
+const { mapGetters } = createNamespacedHelpers('mainStore')
 import Logo from './Logo'
 import SidebarItem from './SidebarItem'
-import variables from '@/styles/index.scss'
+import variables from '@/styles/variables.scss'
 
 export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      'permission_routers',
-      'sidebar'
+      'sidebar',
+      'permission_routers'
     ]),
     routes() {
       return this.$router.options.routes
@@ -45,7 +45,7 @@ export default {
       return path
     },
     showLogo() {
-      return this.$store.state[process.env.VUE_APP_NAME].settings.sidebarLogo
+      return this.$store.state.mainStore.settings.sidebarLogo
     },
     variables() {
       return variables
