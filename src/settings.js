@@ -6,7 +6,6 @@ module.exports = {
    * @description Whether fix the header
    */
   fixedHeader: true,
-  DEVE_MODE: 'production',
   /**
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
