@@ -47,6 +47,15 @@ export default {
       }
     }
   },
+  created() {
+    const route = this.$store.state['mainStore'].user.addRouters
+    for (const item of route) {
+      if (item.path === '/' + process.env.VUE_APP_NAME) {
+        this.$store.commit(`${process.env.VUE_APP_NAME}/user/SET_MENULIST`, item.children)
+        return
+      }
+    }
+  },
   methods: {
     handleClickOutside() {
       this.$store.dispatch(`${process.env.VUE_APP_NAME}/app/closeSideBar`, { withoutAnimation: false })

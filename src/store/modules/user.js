@@ -58,8 +58,10 @@ const mutations = {
   SET_ROUTERS: (state, routes) => {
     state.addRouters = deepClone(routes)
     state.routers = deepClone(constantRoutes.concat(routes))
+  },
+  SET_MENULIST: (state, routers) => {
+    state.routers = deepClone(routers)
   }
-
 }
 
 const actions = {
