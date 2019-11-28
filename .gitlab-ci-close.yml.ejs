@@ -1,0 +1,44 @@
+# 定义 stages
+stages:
+    # - test
+    - build
+    - deploy
+# 定义 job
+cache:
+    paths:
+        - node_modules/
+before_script:
+    - npm set registry http://192.168.1.122
+    - npm install --unsafe-perm=true
+# 代码检查
+# lint:
+#     stage: test
+#     script: npm run lint
+#     tags:
+#         - runner
+#     after_script:
+#         - echo 'test done'
+
+build:
+    stage: build
+    tags:
+        - runner
+    script:
+        - npm run build:prod
+    artifacts:
+        expire_in: 1 week
+        paths:
+            - dist/
+
+
+deploy_dev:
+    stage: deploy
+    tags:
+        - runner
+    dependencies:
+        - build
+    script:
+        - mv dist <%= name %>
+        - chmod 777 -R <%= name %>
+        - scp -P 18822 -r <%= name %>  61.174.54.120:/usr/local/webserver/nginx/html/
+        - echo 'deploy'
