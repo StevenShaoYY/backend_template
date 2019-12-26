@@ -134,9 +134,8 @@ export default {
       background-color: rgb(241, 252, 251);
     }
     .app-main-c {
-      width: calc(100vw - 80px);
+      width: 100vw;
       height: calc(100vh - 50px);
-      // margin-left: 77px;
     }
   }
 
