@@ -20,6 +20,7 @@ export default {
 <style lang="scss" scoped>
 .main-dashboard {
   &-container {
+    padding: 50px 0 0 80px;
     margin: 30px;
   }
   &-text {
