@@ -18,9 +18,10 @@ import '@/permission' // permission control
  * you want to use mockjs for request interception
  * you can execute:
  *
- * import { mockXHR } from '../mock'
- * mockXHR()
  */
+
+import { mockXHR } from '../mock'
+mockXHR()
 
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
